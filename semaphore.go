@@ -9,8 +9,8 @@ import (
 
 // Priority is a semaphore with priority waiters. Lowest priority value gets woken up first.
 type Priority struct {
-	size    int
-	cur     int
+	size    int // total number of slots
+	cur     int // slots currently in use. Full if cur == size.
 	mu      sync.Mutex
 	waiters priorityQueue
 }
@@ -31,7 +31,7 @@ func NewPriority(size int) *Priority {
 // Acquire()s with the same prio it is not defined which one goes first.
 func (p *Priority) Acquire(ctx context.Context, prio int) error {
 	p.mu.Lock()
-	if p.size-p.cur >= 1 { // && p.waiters.Len() == 0 {
+	if p.size-p.cur >= 1 {
 		p.cur++
 		p.mu.Unlock()
 		return nil
