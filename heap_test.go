@@ -10,17 +10,17 @@ func TestHeap(t *testing.T) {
 	i3 := make(chan struct{})
 
 	h := &priorityQueue{}
-	h.add(4, i1)
-	h.add(2, i2)
-	h.add(8, i3)
+	h.Add(4, i1)
+	h.Add(2, i2)
+	h.Add(8, i3)
 
-	if have, want := h.pop(), i2; have != want {
+	if have, want := h.Pop(), i2; have != want {
 		t.Errorf("have %v, want %v", have, want)
 	}
-	if have, want := h.pop(), i1; have != want {
+	if have, want := h.Pop(), i1; have != want {
 		t.Errorf("have %v, want %v", have, want)
 	}
-	if have, want := h.pop(), i3; have != want {
+	if have, want := h.Pop(), i3; have != want {
 		t.Errorf("have %v, want %v", have, want)
 	}
 }

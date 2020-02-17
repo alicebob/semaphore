@@ -38,7 +38,7 @@ func (p *Priority) Acquire(ctx context.Context, prio int) error {
 	}
 
 	ready := make(chan struct{})
-	p.waiters.add(prio, ready)
+	p.waiters.Add(prio, ready)
 	p.mu.Unlock()
 
 	select {
@@ -59,7 +59,7 @@ func (p *Priority) Release() {
 	}
 	if p.waiters.Len() > 0 {
 		p.cur++
-		close(p.waiters.pop())
+		close(p.waiters.Pop())
 	}
 	p.mu.Unlock()
 }
